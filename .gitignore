@@ -50,3 +50,13 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+Firmware/GrayScaleSensor/GrayScaleSensor.code-workspace
+Firmware/GrayScaleSensor/.clang-format
+Firmware/GrayScaleSensor/.cmsis/*
+Firmware/GrayScaleSensor/.eide/*
+Firmware/GrayScaleSensor/.vscode/*
+Firmware/GrayScaleSensor/MDK-ARM/GrayScaleSensor.uvguix.*
+Firmware/GrayScaleSensor/MDK-ARM/DebugConfig/*
+Firmware/GrayScaleSensor/MDK-ARM/GrayScaleSensor/*
+Firmware/GrayScaleSensor/MDK-ARM/EventRecorderStub.scvd
+Firmware/GrayScaleSensor/MDK-ARM/GrayScaleSensor.uvoptx
