@@ -35,12 +35,16 @@ extern "C" {
 extern UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN Private defines */
-
+#define Usart1_TX_LEN 100
+#define Usart1_RX_LEN 60
+extern __IO uint8_t Usart1_TX_Buf[Usart1_TX_LEN];//串口2发送数据数组
+extern __IO uint8_t Usart1_RX_Buf[Usart1_RX_LEN];//串口2接收数据数组
 /* USER CODE END Private defines */
 
 void MX_USART1_UART_Init(void);
 
 /* USER CODE BEGIN Prototypes */
+void UsartReceive_IDLE(UART_HandleTypeDef *huart);//串口接收空闲中断函数
 
 /* USER CODE END Prototypes */
 
