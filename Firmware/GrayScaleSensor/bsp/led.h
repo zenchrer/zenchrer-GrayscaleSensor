@@ -13,8 +13,8 @@
 
 #include "main.h"
 
-void led_all_off();
-void led_loop();
+void led_all_off(void);
+void led_loop(void);
 
 
 #endif // LED_H

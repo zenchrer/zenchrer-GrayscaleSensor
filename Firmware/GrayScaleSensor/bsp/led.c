@@ -10,7 +10,7 @@
  */
 #include "led.h"
 #include "photodiode.h"
-void led_all_off()
+void led_all_off(void)
 {
     HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, GPIO_PIN_SET);
 // LED1与LED2引脚与SWD引脚冲突，完成调试后指示灯
@@ -43,7 +43,7 @@ void led_all_on()
     HAL_GPIO_WritePin(LED6_GPIO_Port, LED6_Pin, GPIO_PIN_RESET);
 }
 
-void led_follow_sensor()
+void led_follow_sensor(void)
 {
     HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, adcValues[0] > splitThresholds[0] ? GPIO_PIN_RESET : GPIO_PIN_SET);
 #ifdef DEBUG
@@ -59,7 +59,7 @@ void led_follow_sensor()
     HAL_GPIO_WritePin(LED6_GPIO_Port, LED6_Pin, adcValues[6] > splitThresholds[6] ? GPIO_PIN_RESET : GPIO_PIN_SET);
 }
 
-void led_calibrate_sensor()
+void led_calibrate_sensor(void)
 {
     static uint16_t blink_tick = 0;
     blink_tick++;
@@ -77,7 +77,7 @@ void led_calibrate_sensor()
     }
 }
 
-void led_loop()
+void led_loop(void)
 {
     if (Sensor_Mode == SENSOR_MODE_CALIBRATE)
     {
@@ -88,3 +88,4 @@ void led_loop()
         led_follow_sensor();
     }
 }
+

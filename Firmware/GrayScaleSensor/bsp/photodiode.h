@@ -21,6 +21,6 @@ enum ENUM_SENSOR_MODEENUM
     SENSOR_MODE_CALIBRATE
 };
 
-void photodiode_clear_calibration();
+void photodiode_clear_calibration(void);
 
 #endif // PHOTODIODE_H
