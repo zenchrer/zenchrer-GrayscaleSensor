@@ -107,6 +107,7 @@ int main(void)
     MX_DMA_Init();
     MX_USART1_UART_Init();
     /* USER CODE BEGIN 2 */
+		DEBUG_PIN_Init();
     Button_Create("ButtonFn",          //按键名字
                   &ButtonFn,           //按键句柄
                   Read_ButtonFn_Level, //按键电平检测函数接口
@@ -128,6 +129,11 @@ int main(void)
         {
             Loop_5msTime_Flag = 0; //清除标志位
             led_loop();
+						if(Usart1_RX_Buf[0]==0x57)
+						{
+						    HAL_UART_Transmit_DMA(&huart1,&Sensor_TransData_Digital,1);
+                Usart1_RX_Buf[0]=0;
+						}
         }
         if (Loop_10msTime_Flag) // 10ms轮询
         {

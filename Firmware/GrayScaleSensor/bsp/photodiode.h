@@ -14,7 +14,7 @@
 
 #define SENSOR_NUM 7
 extern uint32_t adcValues[SENSOR_NUM], splitThresholds[SENSOR_NUM];
-extern uint8_t Sensor_Mode;
+extern uint8_t Sensor_Mode, Sensor_TransData_Digital;
 enum ENUM_SENSOR_MODEENUM
 {
     SENSOR_MODE_RUN,
