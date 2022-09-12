@@ -13,7 +13,7 @@ extern ADC_HandleTypeDef hadc1;
 
 uint32_t adcValues[SENSOR_NUM] = {0}, maxValues[SENSOR_NUM] = {0}, minValues[SENSOR_NUM] = {0}, splitThresholds[SENSOR_NUM] = {0};
 uint8_t Sensor_Mode = SENSOR_MODE_RUN;
-
+uint8_t Sensor_TransData_Digital=0;
 void photodiode_clear_calibration()
 {
     for (uint8_t i = 0; i < SENSOR_NUM; i++)
@@ -43,6 +43,11 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
             splitThresholds[i] = ((minValues[i] + maxValues[i]) >> 1);
         }
     }
-
+		uint8_t sensor_digital_data_temp=0;
+		for (uint8_t i = 0; i < SENSOR_NUM; i++)
+    {
+        sensor_digital_data_temp|=((adcValues[i] > splitThresholds[i]) << i);
+    }
+    Sensor_TransData_Digital=sensor_digital_data_temp;
     HAL_ADC_Start_DMA(&hadc1, adcValues, SENSOR_NUM); //¿ªÆôDMA
 }

@@ -13,7 +13,7 @@
 #include "main.h"
 
 #define SENSOR_NUM 7
-extern uint32_t adcValues[SENSOR_NUM], BGValues[SENSOR_NUM], TrackValues[SENSOR_NUM], splitThresholds[SENSOR_NUM];
+extern uint32_t adcValues[SENSOR_NUM], splitThresholds[SENSOR_NUM];
 extern uint8_t Sensor_Mode;
 enum ENUM_SENSOR_MODEENUM
 {

@@ -72,7 +72,7 @@ void MX_USART1_UART_Init(void)
     /* USER CODE BEGIN USART1_Init 2 */
     HAL_UART_Receive_DMA(&huart1, (uint8_t *)Usart1_RX_Buf, Usart1_RX_LEN); //串口DMA接收
     __HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE);                            // 使能空闲中断
-                                                                            /* USER CODE END USART1_Init 2 */
+    /* USER CODE END USART1_Init 2 */
 }
 
 void HAL_UART_MspInit(UART_HandleTypeDef *uartHandle)
