@@ -1,7 +1,6 @@
 # zenchrer-GrayscaleSensor
 ***
-#项目介绍
-
+# 项目介绍
 &nbsp;&nbsp;&nbsp;&nbsp;本项目是一种适用于机器人赛道巡线的数字量灰度传感器，可安装IRT9909集成红外传感器以及其他3mm光敏二极管，内置STM32G030F6P6微控制器，可以实现赛道手动按键校准以及串口回传传感器数据等功能。<br>&nbsp;&nbsp;&nbsp;&nbsp;硬件使用立创EDA专业版绘制，请使用立创eda专业版打开工程。软件使用Keil MDK+STM32CubeMX编写。
 ***
 # 软件注意事项
