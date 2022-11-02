@@ -156,7 +156,6 @@ PA12\ [PA10].GPIOParameters=GPIO_Label
 PA12\ [PA10].GPIO_Label=LED3
 PA12\ [PA10].Locked=true
 PA12\ [PA10].Signal=GPIO_Output
-PA13.Locked=true
 PA13.Mode=Serial_Wire
 PA13.Signal=SYS_SWDIO
 PA14-BOOT0.Mode=Serial_Wire

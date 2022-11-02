@@ -50,6 +50,7 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+#uart version gitignore
 Firmware/GrayScaleSensor_Uart/GrayScaleSensor_Uart.code-workspace
 Firmware/GrayScaleSensor_Uart/.clang-format
 Firmware/GrayScaleSensor_Uart/.cmsis/*
@@ -60,3 +61,14 @@ Firmware/GrayScaleSensor_Uart/MDK-ARM/DebugConfig/*
 Firmware/GrayScaleSensor_Uart/MDK-ARM/GrayScaleSensor_Uart/*
 Firmware/GrayScaleSensor_Uart/MDK-ARM/EventRecorderStub.scvd
 Firmware/GrayScaleSensor_Uart/MDK-ARM/GrayScaleSensor_Uart.uvoptx
+#i2c version gitignore
+Firmware/GrayScaleSensor_I2C/GrayScaleSensor_I2C.code-workspace
+Firmware/GrayScaleSensor_I2C/.clang-format
+Firmware/GrayScaleSensor_I2C/.cmsis/*
+Firmware/GrayScaleSensor_I2C/.eide/*
+Firmware/GrayScaleSensor_I2C/.vscode/*
+Firmware/GrayScaleSensor_I2C/MDK-ARM/GrayScaleSensor_I2C.uvguix.*
+Firmware/GrayScaleSensor_I2C/MDK-ARM/DebugConfig/*
+Firmware/GrayScaleSensor_I2C/MDK-ARM/GrayScaleSensor_I2C/*
+Firmware/GrayScaleSensor_I2C/MDK-ARM/EventRecorderStub.scvd
+Firmware/GrayScaleSensor_I2C/MDK-ARM/GrayScaleSensor_I2C.uvoptx
