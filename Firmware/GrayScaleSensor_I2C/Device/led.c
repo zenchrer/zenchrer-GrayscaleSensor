@@ -13,14 +13,8 @@
 void led_all_off(void)
 {
     HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, GPIO_PIN_SET);
-// LED1与LED2引脚与SWD引脚冲突，完成调试后指示灯
-#ifdef DEBUG
-
-#else
     HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_SET);
     HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
-#endif // DEBUG
-
     HAL_GPIO_WritePin(LED3_GPIO_Port, LED3_Pin, GPIO_PIN_SET);
     HAL_GPIO_WritePin(LED4_GPIO_Port, LED4_Pin, GPIO_PIN_SET);
     HAL_GPIO_WritePin(LED5_GPIO_Port, LED5_Pin, GPIO_PIN_SET);
@@ -29,14 +23,8 @@ void led_all_off(void)
 void led_all_on()
 {
     HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, GPIO_PIN_RESET);
-// LED1与LED2引脚与SWD引脚冲突，完成调试后指示灯
-#ifdef DEBUG
-
-#else
     HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_RESET);
     HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);
-#endif // DEBUG
-
     HAL_GPIO_WritePin(LED3_GPIO_Port, LED3_Pin, GPIO_PIN_RESET);
     HAL_GPIO_WritePin(LED4_GPIO_Port, LED4_Pin, GPIO_PIN_RESET);
     HAL_GPIO_WritePin(LED5_GPIO_Port, LED5_Pin, GPIO_PIN_RESET);
@@ -46,13 +34,8 @@ void led_all_on()
 void led_follow_sensor(void)
 {
     HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, adcValues[0] > splitThresholds[0] ? GPIO_PIN_RESET : GPIO_PIN_SET);
-#ifdef DEBUG
-
-#else
     HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, adcValues[1] > splitThresholds[1] ? GPIO_PIN_RESET : GPIO_PIN_SET);
     HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, adcValues[2] > splitThresholds[2] ? GPIO_PIN_RESET : GPIO_PIN_SET);
-#endif // DEBUG
-
     HAL_GPIO_WritePin(LED3_GPIO_Port, LED3_Pin, adcValues[3] > splitThresholds[3] ? GPIO_PIN_RESET : GPIO_PIN_SET);
     HAL_GPIO_WritePin(LED4_GPIO_Port, LED4_Pin, adcValues[4] > splitThresholds[4] ? GPIO_PIN_RESET : GPIO_PIN_SET);
     HAL_GPIO_WritePin(LED5_GPIO_Port, LED5_Pin, adcValues[5] > splitThresholds[5] ? GPIO_PIN_RESET : GPIO_PIN_SET);
