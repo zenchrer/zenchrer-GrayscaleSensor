@@ -58,13 +58,22 @@ void led_calibrate_sensor(void)
 
 void led_set_id(void)
 {
-    HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, __sensor_id > 0 ? GPIO_PIN_RESET : GPIO_PIN_SET);
-    HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, __sensor_id > 1 ? GPIO_PIN_RESET : GPIO_PIN_SET);
-    HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, __sensor_id > 2 ? GPIO_PIN_RESET : GPIO_PIN_SET);
-    HAL_GPIO_WritePin(LED3_GPIO_Port, LED3_Pin, __sensor_id > 3 ? GPIO_PIN_RESET : GPIO_PIN_SET);
-    HAL_GPIO_WritePin(LED4_GPIO_Port, LED4_Pin, __sensor_id > 4 ? GPIO_PIN_RESET : GPIO_PIN_SET);
-    HAL_GPIO_WritePin(LED5_GPIO_Port, LED5_Pin, __sensor_id > 5 ? GPIO_PIN_RESET : GPIO_PIN_SET);
-    HAL_GPIO_WritePin(LED6_GPIO_Port, LED6_Pin, __sensor_id > 6 ? GPIO_PIN_RESET : GPIO_PIN_SET);
+    static uint16_t blink_tick = 0;
+    blink_tick++;
+    if (blink_tick > 50 && blink_tick < 100) {
+        HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, __sensor_id > 0 ? GPIO_PIN_RESET : GPIO_PIN_SET);
+        HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, __sensor_id > 1 ? GPIO_PIN_RESET : GPIO_PIN_SET);
+        HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, __sensor_id > 2 ? GPIO_PIN_RESET : GPIO_PIN_SET);
+        HAL_GPIO_WritePin(LED3_GPIO_Port, LED3_Pin, __sensor_id > 3 ? GPIO_PIN_RESET : GPIO_PIN_SET);
+        HAL_GPIO_WritePin(LED4_GPIO_Port, LED4_Pin, __sensor_id > 4 ? GPIO_PIN_RESET : GPIO_PIN_SET);
+        HAL_GPIO_WritePin(LED5_GPIO_Port, LED5_Pin, __sensor_id > 5 ? GPIO_PIN_RESET : GPIO_PIN_SET);
+        HAL_GPIO_WritePin(LED6_GPIO_Port, LED6_Pin, __sensor_id > 6 ? GPIO_PIN_RESET : GPIO_PIN_SET);
+    } else {
+        led_all_off();
+    }
+    if (blink_tick == 100) {
+        blink_tick = 0;
+    }
 }
 
 void led_loop(void)

@@ -36,10 +36,10 @@ void ButtonFn_Dowm_CallBack(void *btn)
 {
     if (Sensor_Mode == SENSOR_MODE_SETID) {
         __sensor_id += __sensor_id == 7 ? -6 : 1;
-        __setid_tick = 15;
+        __setid_tick = 30;
     } else if (Sensor_Mode == SENSOR_MODE_RUN) {
         Sensor_Mode = SENSOR_MODE_SETID;
-        __setid_tick = 15;
+        __setid_tick = 30;
     }
 }
 /**
