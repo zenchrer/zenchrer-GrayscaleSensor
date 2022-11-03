@@ -56,7 +56,7 @@ void app_main_loop(void)
     if (Loop_100msTime_Flag) // 100ms轮询
     {
         Loop_100msTime_Flag = 0; //清除标志位
-        if (__setid_tick > 0) {
+        if (__setid_tick > 0) {//start set id timer tick
             __setid_tick--; //
             if (__setid_tick == 0) {
                 Sensor_Mode = SENSOR_MODE_RUN;
