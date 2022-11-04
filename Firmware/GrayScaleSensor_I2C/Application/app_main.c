@@ -54,7 +54,7 @@ void app_main_init(void)
     }
     Sensor_I2C1_Init(IIC_ID_BASE + __sensor_id);
     HAL_ADC_Start_DMA(&hadc1, adcValues, SENSOR_NUM);    
-    HAL_I2C_Slave_Receive_IT(&hi2c1, i2cDataRx, 4); // open i2c DMA receive.
+    HAL_I2C_Slave_Receive_IT(&hi2c1, i2cDataRx, 2); // open i2c DMA receive.
     led_all_off();
 }
 
@@ -132,12 +132,12 @@ void HAL_I2C_SlaveRxCpltCallback(I2C_HandleTypeDef *hi2c)
     }
 
     do {
-        state = HAL_I2C_Slave_Transmit(&hi2c1, (uint8_t *)i2cDataTx, 5, 10000);
+        state = HAL_I2C_Slave_Transmit(&hi2c1, (uint8_t *)i2cDataTx, 2, 1000);
     } while (state != HAL_OK);
     //        state = HAL_I2C_Slave_Transmit_DMA(&hi2c1, (uint8_t*) i2cDataTx, 5);
 
     do {
-        state = HAL_I2C_Slave_Receive_IT(&hi2c1, (uint8_t *)i2cDataRx, 4);
+        state = HAL_I2C_Slave_Receive_IT(&hi2c1, (uint8_t *)i2cDataRx, 2);
     } while (state != HAL_OK);
 }
 
