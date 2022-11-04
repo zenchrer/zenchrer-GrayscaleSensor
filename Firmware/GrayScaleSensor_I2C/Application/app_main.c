@@ -31,8 +31,8 @@ uint8_t __sensor_id = 1;
 
 // I2C Pins
 // RX = SDA   TX = SCL
-uint8_t aRxBuffer[4] = {0};
-uint8_t aTxBuffer[4] = {0};
+uint8_t i2cDataRx[8];
+uint8_t i2cDataTx[8];
 /**
  * @brief the main initialization function
  *
@@ -41,7 +41,7 @@ void app_main_init(void)
 {
     Button_init();
     HAL_ADC_Start_DMA(&hadc1, adcValues, SENSOR_NUM);
-    HAL_I2C_Slave_Receive_DMA(&hi2c1, aRxBuffer, 4); // open i2c DMA receive.
+    HAL_I2C_Slave_Receive_IT(&hi2c1, i2cDataRx, 4); // open i2c DMA receive.
     led_all_off();
     STMFLASH_Read(FLASH_SECTOR15_START, (uint32_t *)splitThresholds, sizeof(splitThresholds));
 }
@@ -103,47 +103,29 @@ void app_tick_handler(void)
     }
 }
 
-// void HAL_I2C_SlaveRxCpltCallback(I2C_HandleTypeDef *hi2c)
-//{
-//     if (hi2c == &hi2c1) {
-//         // i2c1GetDataCount++;
-//         uint8_t reg;
-//         reg = aRxBuffer[0]; // check master send's command and then receive DMA again. if it need read, put the transmit DMA。
-//         switch (reg) {
-//             case 0xAA: // frequency reg
-//                 // audio_frequecy = aRxBuffer[1];
-//                 HAL_I2C_Slave_Receive_DMA(&hi2c1, aRxBuffer, 4);
-//                 break;
-//             case 0x03: {
-//                 // L_Level = aRxBuffer[1];
-//                 // R_Level = aRxBuffer[2];
-//                 HAL_I2C_Slave_Receive_DMA(&hi2c1, aRxBuffer, 4);
-//                 break;
-//             }
-//             case 0xEE: { // 0xFE是自己定义的，告诉STM32 从机需要读数据，所以立即放上发送DMA函数。
-//                 aTxBuffer[0] = Sensor_TransData_Digital;
-//                 // aTxBuffer[1] = audio_frequecy;
-//                 // aTxBuffer[2] = 0x33;
-//                 HAL_I2C_Slave_Transmit_DMA(&hi2c1, aTxBuffer, 3);
-//                 break;
-//             }
-//             default:
-//                 //防止传送了没有定义的数据，导致I2C挂死。
-//                 HAL_I2C_Slave_Receive_DMA(&hi2c1, aRxBuffer, 4);
-//                 break;
-//         }
+ void HAL_I2C_SlaveRxCpltCallback(I2C_HandleTypeDef *hi2c)
+{
+    HAL_StatusTypeDef state = HAL_ERROR;
 
-//        for (uint8_t i = 0; i < 4; i++) {
-//            // 清空缓存
-//            aRxBuffer[i] = 0;
-//        }
-//    }
-//}
+    i2cDataTx[0] = i2cDataRx[0];
+    switch (i2cDataRx[0])
+    {
+        
+        case 0xee:
+						i2cDataTx[1] = Sensor_TransData_Digital;
+            break;
+        default:
+            break;
+    }
 
-//这个回调函数也特别重要，传完数据一定要转回接收。
-// void HAL_I2C_SlaveTxCpltCallback(I2C_HandleTypeDef *hi2c)
-//{
-//    if (hi2c == &hi2c1) {
-//        HAL_I2C_Slave_Receive_DMA(&hi2c1, aRxBuffer, 4);
-//    }
-//}
+    do
+    {
+        state = HAL_I2C_Slave_Transmit(&hi2c1, (uint8_t*) i2cDataTx, 5, 10000);
+    } while (state != HAL_OK);
+
+    do
+    {
+        state = HAL_I2C_Slave_Receive_IT(&hi2c1, (uint8_t*) i2cDataRx, 4);
+    } while (state != HAL_OK);
+}
+
