@@ -84,6 +84,7 @@ void app_main_loop(void)
         if (__setid_tick > 0) {  // start set id timer tick
             __setid_tick--;      //
             if (__setid_tick == 0) {
+                if(__sensor_id)
                 memcpy(flash_read_buff + sizeof(splitThresholds), &__sensor_id, sizeof(__sensor_id));
                 STMFLASH_Write(FLASH_SECTOR15_START, flash_read_buff, sizeof(splitThresholds) + sizeof(__sensor_id));
                 Sensor_Mode = SENSOR_MODE_RUN;
