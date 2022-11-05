@@ -3,6 +3,7 @@
 #include "main.h"
 
 extern uint8_t __setid_tick,__sensor_id;
+extern uint32_t flash_read_buff[29];
 
 /**
  * @brief the main initialization function

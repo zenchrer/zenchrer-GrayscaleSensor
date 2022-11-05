@@ -37,7 +37,8 @@ uint8_t i2cDataTx[8];
 
 uint32_t flash_read_buff[29];
 
-void Sensor_I2C1_Init(uint8_t __id);
+void Sensor_I2C_Init(uint8_t __id);
+void Sensor_I2C_Check(void);
 
 /**
  * @brief the main initialization function
@@ -52,8 +53,8 @@ void app_main_init(void)
     if (__sensor_id < 1 || __sensor_id > 7) {
         __sensor_id = 1;
     }
-    Sensor_I2C1_Init(IIC_ID_BASE + __sensor_id);
-    HAL_ADC_Start_DMA(&hadc1, adcValues, SENSOR_NUM);    
+    Sensor_I2C_Init(IIC_ID_BASE + __sensor_id);
+    HAL_ADC_Start_DMA(&hadc1, adcValues, SENSOR_NUM);
     HAL_I2C_Slave_Receive_IT(&hi2c1, i2cDataRx, 2); // open i2c DMA receive.
     led_all_off();
 }
@@ -84,10 +85,12 @@ void app_main_loop(void)
         if (__setid_tick > 0) {  // start set id timer tick
             __setid_tick--;      //
             if (__setid_tick == 0) {
-                if(__sensor_id)
-                memcpy(flash_read_buff + sizeof(splitThresholds), &__sensor_id, sizeof(__sensor_id));
-                STMFLASH_Write(FLASH_SECTOR15_START, flash_read_buff, sizeof(splitThresholds) + sizeof(__sensor_id));
-                Sensor_Mode = SENSOR_MODE_RUN;
+                if (((__sensor_id + IIC_ID_BASE) << 1) != hi2c1.Devaddress) {
+                    memcpy(flash_read_buff + sizeof(splitThresholds), &__sensor_id, sizeof(__sensor_id));
+                    STMFLASH_Write(FLASH_SECTOR15_START, flash_read_buff, sizeof(splitThresholds) + sizeof(__sensor_id));
+                    HAL_Delay(2);
+                    NVIC_SystemReset();
+                }
             }
         }
     }
@@ -101,6 +104,7 @@ void app_tick_handler(void)
 {
     static uint32_t time;
     time++;
+    //        Sensor_I2C_Check();
     if (0 == (time % 5)) {
         Loop_5msTime_Flag = 1;
     }
@@ -143,7 +147,7 @@ void HAL_I2C_SlaveRxCpltCallback(I2C_HandleTypeDef *hi2c)
 }
 
 /* I2C1 init function */
-void Sensor_I2C1_Init(uint8_t __id)
+void Sensor_I2C_Init(uint8_t __id)
 {
 
     hi2c1.Instance = I2C1;
@@ -174,4 +178,38 @@ void Sensor_I2C1_Init(uint8_t __id)
     /** I2C Fast mode Plus enable
      */
     HAL_I2CEx_EnableFastModePlus(I2C_FASTMODEPLUS_I2C1);
+}
+//以下都是解决i2c错误的。
+void I2C_Reset(I2C_HandleTypeDef *I2cHandle)
+{
+    HAL_StatusTypeDef state = HAL_ERROR;
+    HAL_I2C_DeInit(I2cHandle);
+    I2cHandle->State = HAL_I2C_STATE_RESET;
+    if (I2cHandle == &hi2c1) {
+        Sensor_I2C_Init(__sensor_id);
+        do {
+            state = HAL_I2C_Slave_Receive_IT(&hi2c1, (uint8_t *)i2cDataRx, 2);
+        } while (state != HAL_OK);
+    }
+}
+
+void Sensor_I2C_Check(void)
+{
+    static uint8_t testI2C1Status = 0;
+    if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_7) == GPIO_PIN_SET) {
+        testI2C1Status += 1;
+        if (testI2C1Status > 200) {
+
+            I2C_Reset(&hi2c1);
+            testI2C1Status = 0;
+        }
+    } else {
+        testI2C1Status = 0;
+    }
+}
+void HAL_I2C_ErrorCallback(I2C_HandleTypeDef *I2cHandle)
+{
+    if (HAL_I2C_GetError(I2cHandle) != HAL_I2C_ERROR_AF) {
+        I2C_Reset(I2cHandle);
+    }
 }
