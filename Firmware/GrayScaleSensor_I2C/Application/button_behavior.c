@@ -59,8 +59,8 @@ void ButtonFn_Double_CallBack(void *btn)
     } else if (Sensor_Mode == SENSOR_MODE_CALIBRATE) {
         // calibration done, write calibration data to flash
         Sensor_Mode = SENSOR_MODE_RUN;
+        memcpy(flash_read_buff,splitThresholds, sizeof(splitThresholds));
         STMFLASH_Write(FLASH_SECTOR15_START, flash_read_buff, sizeof(splitThresholds) + sizeof(__sensor_id));
-        HAL_Delay(2);
         NVIC_SystemReset();
     }
 }
