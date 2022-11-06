@@ -68,6 +68,8 @@ void app_main_loop(void)
     if (Loop_5msTime_Flag) // 5ms轮询
     {
         Loop_5msTime_Flag = 0; //清除标志位
+    HAL_ADC_Start_DMA(&hadc1, adcValues, SENSOR_NUM);
+
         led_loop();
     }
     if (Loop_10msTime_Flag) // 10ms轮询

@@ -1,0 +1,22 @@
+# dot files
+/.vscode/launch.json
+/.settings
+/.eide/log
+/.eide.usr.ctx.json
+
+# project out
+/build
+/bin
+/obj
+/out
+
+# eide template
+*.ept
+*.eide-template
+*.code-workspace
+/.clang-format
+/MDK-ARM/Sensor_STM32F1_Demo/*
+/MDK-ARM/Sensor_STM32F1_Demo.uvguix.hhh
+/.eide/*
+/.cmsis/*
+/.vscode/*

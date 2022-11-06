@@ -13,3 +13,14 @@
 # eide template
 *.ept
 *.eide-template
+
+/GrayScaleSensor_Uart.code-workspace
+/.clang-format
+/.cmsis/*
+/.eide/*
+/.vscode/*
+/MDK-ARM/GrayScaleSensor_Uart.uvguix.*
+/MDK-ARM/DebugConfig/*
+/MDK-ARM/GrayScaleSensor_Uart/*
+/MDK-ARM/EventRecorderStub.scvd
+/MDK-ARM/GrayScaleSensor_Uart.uvoptx
