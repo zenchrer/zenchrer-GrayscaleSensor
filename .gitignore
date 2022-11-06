@@ -50,15 +50,4 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
-#uart version gitignore
-Firmware/GrayScaleSensor_Uart/GrayScaleSensor_Uart.code-workspace
-Firmware/GrayScaleSensor_Uart/.clang-format
-Firmware/GrayScaleSensor_Uart/.cmsis/*
-Firmware/GrayScaleSensor_Uart/.eide/*
-Firmware/GrayScaleSensor_Uart/.vscode/*
-Firmware/GrayScaleSensor_Uart/MDK-ARM/GrayScaleSensor_Uart.uvguix.*
-Firmware/GrayScaleSensor_Uart/MDK-ARM/DebugConfig/*
-Firmware/GrayScaleSensor_Uart/MDK-ARM/GrayScaleSensor_Uart/*
-Firmware/GrayScaleSensor_Uart/MDK-ARM/EventRecorderStub.scvd
-Firmware/GrayScaleSensor_Uart/MDK-ARM/GrayScaleSensor_Uart.uvoptx
 
