@@ -72,7 +72,6 @@ void app_main_loop(void)
     }
     if (Loop_20msTime_Flag) {
         Loop_20msTime_Flag = 0;
-        λ
         Button_Process();
     }
     if (Loop_100msTime_Flag) {

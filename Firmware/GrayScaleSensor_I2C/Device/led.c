@@ -10,6 +10,10 @@
  */
 #include "led.h"
 #include "Sensor.h"
+/**
+ * @brief turn off all led 
+ * 
+ */
 void led_all_off(void)
 {
     HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, GPIO_PIN_SET);
@@ -20,6 +24,10 @@ void led_all_off(void)
     HAL_GPIO_WritePin(LED5_GPIO_Port, LED5_Pin, GPIO_PIN_SET);
     HAL_GPIO_WritePin(LED6_GPIO_Port, LED6_Pin, GPIO_PIN_SET);
 }
+/**
+ * @brief turn on all led 
+ * 
+ */
 void led_all_on()
 {
     HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, GPIO_PIN_RESET);
@@ -30,7 +38,10 @@ void led_all_on()
     HAL_GPIO_WritePin(LED5_GPIO_Port, LED5_Pin, GPIO_PIN_RESET);
     HAL_GPIO_WritePin(LED6_GPIO_Port, LED6_Pin, GPIO_PIN_RESET);
 }
-
+/**
+ * @brief led follow the sensor
+ * 
+ */
 void led_follow_sensor(void)
 {
     HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, adcValues[0] > splitThresholds[0] ? GPIO_PIN_RESET : GPIO_PIN_SET);
@@ -41,7 +52,10 @@ void led_follow_sensor(void)
     HAL_GPIO_WritePin(LED5_GPIO_Port, LED5_Pin, adcValues[5] > splitThresholds[5] ? GPIO_PIN_RESET : GPIO_PIN_SET);
     HAL_GPIO_WritePin(LED6_GPIO_Port, LED6_Pin, adcValues[6] > splitThresholds[6] ? GPIO_PIN_RESET : GPIO_PIN_SET);
 }
-
+/**
+ * @brief led in calibration mode
+ * 
+ */
 void led_calibrate_sensor(void)
 {
     static uint16_t blink_tick = 0;
@@ -55,7 +69,10 @@ void led_calibrate_sensor(void)
         blink_tick = 0;
     }
 }
-
+/**
+ * @brief led display id
+ * 
+ */
 void led_set_id(void)
 {
     static uint16_t blink_tick = 0;
