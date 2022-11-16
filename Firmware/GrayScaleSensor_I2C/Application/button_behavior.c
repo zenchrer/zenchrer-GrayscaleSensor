@@ -16,7 +16,7 @@
 #include "gpio.h"
 
 Button_t ButtonFn;
-
+uint8_t id_update_flag=0;
 /**
  * @brief read button state function
  *
@@ -43,6 +43,7 @@ void ButtonFn_Dowm_CallBack(void *btn)
         // if sensor id is larger than max id , it will be reset
         __sensor_id += __sensor_id == 7 ? -6 : 1;
         __setid_tick = 30;
+				id_update_flag=1;
     }
 }
 /**

@@ -23,11 +23,11 @@
 #include "Sensor.h"
 #include "flash.h"
 
-uint8_t Loop_5msTime_Flag = 0;   // 5ms轮询时间
-uint8_t Loop_10msTime_Flag = 0;  
-uint8_t Loop_20msTime_Flag = 0;  
-uint8_t Loop_100msTime_Flag = 0; 
-uint8_t Loop_500msTime_Flag = 0; 
+uint8_t Loop_5msTime_Flag = 0; // 5ms轮询时间
+uint8_t Loop_10msTime_Flag = 0;
+uint8_t Loop_20msTime_Flag = 0;
+uint8_t Loop_100msTime_Flag = 0;
+uint8_t Loop_500msTime_Flag = 0;
 
 uint8_t __setid_tick = 0;
 uint8_t __sensor_id = 1;
@@ -51,8 +51,8 @@ void app_main_init(void)
     Button_init();                                    // init the button
     Sensor_I2C_Init(IIC_ID_BASE + __sensor_id);       // init the sensor i2c
     HAL_ADC_Start_DMA(&hadc1, adcValues, SENSOR_NUM); // start the adc
-    HAL_I2C_Slave_Receive_IT(&hi2c1, i2cDataRx, 2);   // open i2c receive.
-    led_all_off();                                    // turn off the LED
+    // HAL_I2C_Slave_Receive_IT(&hi2c1, i2cDataRx, 2);   // open i2c receive.
+    led_all_off(); // turn off the LED
 }
 
 /**
@@ -79,14 +79,15 @@ void app_main_loop(void)
         if (__setid_tick > 0) { // start set id mode timer tick
             __setid_tick--;     // 100ms per tick
             if (__setid_tick == 0) {
-                if (((__sensor_id + IIC_ID_BASE) << 1) != hi2c1.Init.OwnAddress1) {
+                if (id_update_flag) {
+										id_update_flag=0;
                     // check id,if it was changed,
                     //  write new id to the flash and restart
                     memcpy(flash_read_buff + sizeof(splitThresholds), &__sensor_id, sizeof(__sensor_id));
                     STMFLASH_Write(FLASH_SECTOR15_START, flash_read_buff, sizeof(splitThresholds) + sizeof(__sensor_id));
-                    NVIC_SystemReset();
+                    Sensor_Set_ID(((__sensor_id + IIC_ID_BASE) << 1));
                 }
-                //return normal mode
+                // return normal mode
                 Sensor_Mode = SENSOR_MODE_RUN;
             }
         }

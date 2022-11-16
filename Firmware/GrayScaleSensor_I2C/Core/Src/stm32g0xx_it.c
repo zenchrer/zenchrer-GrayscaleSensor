@@ -23,6 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "app_main.h"
+#include "i2c_behavior.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -57,9 +58,6 @@
 
 /* External variables --------------------------------------------------------*/
 extern DMA_HandleTypeDef hdma_adc1;
-extern DMA_HandleTypeDef hdma_i2c1_rx;
-extern DMA_HandleTypeDef hdma_i2c1_tx;
-extern I2C_HandleTypeDef hi2c1;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -152,24 +150,18 @@ void DMA1_Channel1_IRQHandler(void)
   /* USER CODE BEGIN DMA1_Channel1_IRQn 0 */
 
   /* USER CODE END DMA1_Channel1_IRQn 0 */
-  HAL_DMA_IRQHandler(&hdma_i2c1_rx);
+
   /* USER CODE BEGIN DMA1_Channel1_IRQn 1 */
-
+    if(LL_DMA_IsActiveFlag_TC1(DMA1))
+    {
+        //LL_DMA_ClearFlag_GI3(DMA1);
+        LL_DMA_ClearFlag_TC1(DMA1);
+        
+        I2C_SlaveDMARxCpltCallback();  
+        LL_DMA_DisableChannel(DMA1,LL_DMA_CHANNEL_1);
+        LL_DMA_SetDataLength(DMA1,LL_DMA_CHANNEL_1,2);      
+    }   
   /* USER CODE END DMA1_Channel1_IRQn 1 */
-}
-
-/**
-  * @brief This function handles DMA1 channel 2 and channel 3 interrupts.
-  */
-void DMA1_Channel2_3_IRQHandler(void)
-{
-  /* USER CODE BEGIN DMA1_Channel2_3_IRQn 0 */
-
-  /* USER CODE END DMA1_Channel2_3_IRQn 0 */
-  HAL_DMA_IRQHandler(&hdma_i2c1_tx);
-  /* USER CODE BEGIN DMA1_Channel2_3_IRQn 1 */
-
-  /* USER CODE END DMA1_Channel2_3_IRQn 1 */
 }
 
 /**
@@ -194,13 +186,17 @@ void I2C1_IRQHandler(void)
   /* USER CODE BEGIN I2C1_IRQn 0 */
 
   /* USER CODE END I2C1_IRQn 0 */
-  if (hi2c1.Instance->ISR & (I2C_FLAG_BERR | I2C_FLAG_ARLO | I2C_FLAG_OVR)) {
-    HAL_I2C_ER_IRQHandler(&hi2c1);
-  } else {
-    HAL_I2C_EV_IRQHandler(&hi2c1);
-  }
-  /* USER CODE BEGIN I2C1_IRQn 1 */
 
+  /* USER CODE BEGIN I2C1_IRQn 1 */
+    if(LL_I2C_IsActiveFlag_ADDR(I2C1))
+    {
+        if(LL_I2C_GetTransferDirection(I2C1) == LL_I2C_DIRECTION_WRITE)
+        {
+            LL_DMA_EnableChannel(DMA1,LL_DMA_CHANNEL_1);
+            LL_I2C_ClearFlag_ADDR(I2C1);
+        }
+       
+    }
   /* USER CODE END I2C1_IRQn 1 */
 }
 

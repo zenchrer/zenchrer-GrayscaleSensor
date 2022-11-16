@@ -13,7 +13,7 @@
 #define BUTTON_BEHAVIOR_H
 
 #include "button.h"
-
+extern uint8_t id_update_flag;
 /**
  * @brief init button and link button callback function
  * 

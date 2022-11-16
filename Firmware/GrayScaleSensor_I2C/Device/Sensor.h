@@ -2,7 +2,7 @@
  * @file Sensor.h
  * @author zenchrer (zenchrer@qq.com)
  * @brief
- * @version 0.1
+ * @version 1.0
  * @date 2022-08-31
  *
  * @copyright Copyright (c) 2022
