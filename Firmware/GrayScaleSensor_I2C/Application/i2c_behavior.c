@@ -35,12 +35,11 @@ void HAL_I2C_SlaveRxCpltCallback(I2C_HandleTypeDef *hi2c)
         default:
             break;
     }
-
+    //transmit data back 
     do {
         state = HAL_I2C_Slave_Transmit(&hi2c1, (uint8_t *)i2cDataTx, 2, 1000);
     } while (state != HAL_OK);
-    //        state = HAL_I2C_Slave_Transmit_DMA(&hi2c1, (uint8_t*) i2cDataTx, 5);
-
+    //start receive again
     do {
         state = HAL_I2C_Slave_Receive_IT(&hi2c1, (uint8_t *)i2cDataRx, 2);
     } while (state != HAL_OK);
