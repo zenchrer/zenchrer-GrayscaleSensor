@@ -588,6 +588,11 @@
               <FileType>1</FileType>
               <FilePath>..\Application\button_behavior.c</FilePath>
             </File>
+            <File>
+              <FileName>i2c_behavior.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\i2c_behavior.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
